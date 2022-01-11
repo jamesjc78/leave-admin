@@ -5,11 +5,11 @@ const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
-const formValid = ({ formErrors, ...rest }) => {
+const loginValid = ({ loginError, ...rest }) => {
   let valid = true;
 
   // validate form errors being empty
-  Object.values(formErrors).forEach((val) => {
+  Object.values(loginError).forEach((val) => {
     val.length > 0 && (valid = false);
   });
 
@@ -36,7 +36,7 @@ class App extends React.Component {
 
   handleLogin = (event) => {
     event.preventDefault();
-    if (formValid(this.state)) {
+    if (loginValid(this.state)) {
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
@@ -55,7 +55,7 @@ class App extends React.Component {
         break;
       case "password":
         loginError.passwordError =
-          value.length < 6 ? "minimum 6 characaters required" : "";
+          value.length < 6 ? "minimum 6 characters required" : "";
         break;
       default:
         break;
@@ -67,7 +67,7 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.email !== null ? ( //display dashboard
+        {loginValid(this.state) ? ( //display dashboard
           <div className="welcome">
             <h2>
               Welcome,<span>{this.state.name}</span>
@@ -78,6 +78,7 @@ class App extends React.Component {
           <LoginForm
             onLogIn={this.handleLogin}
             onLoginChange={this.handleLoginChange}
+            loginError={this.state.loginError}
           /> // display login form
         )}
       </React.Fragment>
