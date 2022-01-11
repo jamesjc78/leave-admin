@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class LoginForm extends React.Component {
   render() {
+    const { loginError, onLogin, onLoginChange } = this.props;
     return (
       <div className="container-fluid">
         <div className="row justify-content-center">
@@ -16,7 +17,7 @@ class LoginForm extends React.Component {
           <div className="col-12 col-sm-6 col-md-3 ">
             <form
               className="my-container border border-primary"
-              onSubmit={() => this.props.onSubmit()}
+              onSubmit={() => onLogin()}
               noValidate
             >
               <div className="form-group">
@@ -29,8 +30,11 @@ class LoginForm extends React.Component {
                   placeholder="Username"
                   aria-describedby="emailHelp"
                   noValidate
-                  onChange={(event) => this.props.onLoginChange(event)}
+                  onChange={(event) => onLoginChange(event)}
                 ></input>
+                {loginError.userError.length > 0 && (
+                  <small className="text-danger">{loginError.userError}</small>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -41,8 +45,13 @@ class LoginForm extends React.Component {
                   id="password"
                   name="password"
                   noValidate
-                  onChange={(event) => this.props.onLoginChange(event)}
+                  onChange={(event) => onLoginChange(event)}
                 ></input>
+                {loginError.passwordError.length > 0 && (
+                  <small className="text-danger">
+                    {loginError.passwordError}
+                  </small>
+                )}
               </div>
               <button
                 type="submit"
