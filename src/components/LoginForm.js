@@ -5,28 +5,45 @@ class LoginForm extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row justify-content-center">
+          <div className="col-12 col-sm-6 col-md-3">
+            <img
+              src="https://www.noaya.no/assets/images/common/noaya-logo-menu.png"
+              className="logo"
+            ></img>
+          </div>
+        </div>
+        <div className="row justify-content-center">
           <div className="col-12 col-sm-6 col-md-3 ">
-            <form className="my-container border border-primary">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
+            <form
+              className="my-container border border-primary"
+              onSubmit={() => this.props.onSubmit()}
+              noValidate
+            >
+              <div className="form-group">
+                <label htmlFor="email">Username</label>
                 <input
                   type="email"
                   className="form-control"
-                  id="exampleInputEmail1"
+                  id="email"
+                  name="email"
                   placeholder="Username"
                   aria-describedby="emailHelp"
+                  noValidate
+                  onChange={(event) => this.props.onLoginChange(event)}
                 ></input>
               </div>
               <div className="form-group">
-                <label for="exampleInputPassword1">Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  id="exampleInputPassword1"
+                  id="password"
+                  name="password"
+                  noValidate
+                  onChange={(event) => this.props.onLoginChange(event)}
                 ></input>
               </div>
-
               <button
                 type="submit"
                 className="btn main-btn btn-primary btn-block"
