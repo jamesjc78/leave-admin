@@ -9,6 +9,7 @@ class LoginForm extends React.Component {
           <div className="col-12 col-sm-6 col-md-3">
             <img
               src="https://www.noaya.no/assets/images/common/noaya-logo-menu.png"
+              alt=""
               className="logo"
             ></img>
           </div>
@@ -17,7 +18,7 @@ class LoginForm extends React.Component {
           <div className="col-12 col-sm-6 col-md-3 ">
             <form
               className="my-container border border-primary"
-              onSubmit={() => onLogin()}
+              onSubmit={(event) => onLogin(event)}
               noValidate
             >
               <div className="form-group">
