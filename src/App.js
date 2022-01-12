@@ -44,6 +44,7 @@ class App extends React.Component {
   handleLogin = (event) => {
     event.preventDefault();
     if (loginValid(this.state)) {
+      this.setState({ authorized: true });
       this.props.navigate("/user");
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
@@ -85,7 +86,10 @@ class App extends React.Component {
             />
           }
         />
-        <Route path="/user" element={<Home />} />
+        <Route
+          path="/user"
+          element={<Home authorized={this.state.authorized} />}
+        />
       </Routes>
     );
   }
