@@ -1,0 +1,16 @@
+.add-employee {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #4e8bc6;
+  border-radius: 20px;
+  border-color: #4e8bc6;
+}
+
+thead {
+  background-color: #325e88;
+  color: #fff;
+}
+
+table {
+  border-radius: 10px;
+}
