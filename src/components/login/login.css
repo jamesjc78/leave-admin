@@ -3,8 +3,7 @@
   top: 100px;
   padding-bottom: 20px;
   /* background: #4e8bc6; */
-  border-radius: 10px;
-  box-shadow: 0px, 0px, 10px, 0px #000;
+  border-radius: 5px;
 }
 
 .form-group {
@@ -13,11 +12,24 @@
 
 .main-btn {
   margin-left: 20px;
+  margin-right: 20px;
+  background-color: #4e8bc6;
+  border-radius: 20px;
+  border-color: #4e8bc6;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .logo {
   margin: 30px;
   height: 50px;
+}
+
+::placeholder {
+  color: #7aa8d5 !important;
+}
+.form-control {
+  background-color: #edf3f8;
 }
 
 small {

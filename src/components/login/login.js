@@ -17,7 +17,7 @@ class LoginForm extends React.Component {
         <div className="row justify-content-center">
           <div className="col-12 col-sm-6 col-md-3 ">
             <form
-              className="my-container border border-primary"
+              className="my-container shadow bg-white"
               onSubmit={(event) => onLogin(event)}
               noValidate
             >
@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
                 <label htmlFor="email">Username</label>
                 <input
                   type="email"
-                  className="form-control"
+                  className="form-control border-0"
                   id="email"
                   name="email"
                   placeholder="Username"
@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
-                  className="form-control"
+                  className="form-control border-0"
                   placeholder="Password"
                   id="password"
                   name="password"
@@ -54,12 +54,14 @@ class LoginForm extends React.Component {
                   </small>
                 )}
               </div>
-              <button
-                type="submit"
-                className="btn main-btn btn-primary btn-block"
-              >
-                Log in
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="btn btn-primary main-btn col-10"
+                >
+                  Log in
+                </button>
+              </div>
             </form>
           </div>
         </div>
