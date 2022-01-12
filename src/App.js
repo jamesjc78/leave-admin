@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/login";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
