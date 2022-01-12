@@ -1,12 +1,18 @@
 import React from "react";
-import LoginForm from "./components/login";
+import { Route, Routes } from "react-router-dom";
+import LoginForm from "./components/login/login";
+import Home from "./components/home/home";
+import { withRouter } from "./withRouter";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
-const loginValid = ({ loginError, ...rest }) => {
+const loginValid = (states) => {
   let valid = true;
+  const loginError = states.loginError;
+  const username = states.email;
+  const password = states.password;
 
   // validate form errors being empty
   Object.values(loginError).forEach((val) => {
@@ -14,29 +20,31 @@ const loginValid = ({ loginError, ...rest }) => {
   });
 
   // validate the form was filled out
-  Object.values(rest).forEach((val) => {
-    val === null && (valid = false);
-  });
+  username === null && (valid = false);
+  password === null && (valid = false);
 
   return valid;
 };
 
 class App extends React.Component {
   state = {
-    name: null,
+    name: null, //user information
     email: null,
     position: null,
     password: null,
-    employees: [],
+    employees: [], // list of employees
     loginError: {
-      userError: "",
+      userError: "", // login error messages
       passwordError: "",
     },
+    authorized: false,
   };
 
+  //
   handleLogin = (event) => {
     event.preventDefault();
     if (loginValid(this.state)) {
+      this.props.navigate("/user");
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
@@ -66,24 +74,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        {loginValid(this.state) ? ( //display dashboard
-          <div className="welcome">
-            <h2>
-              Welcome,<span>{this.state.name}</span>
-            </h2>
-            <button className="logout">Logout</button>
-          </div>
-        ) : (
-          <LoginForm
-            onLogIn={this.handleLogin}
-            onLoginChange={this.handleLoginChange}
-            loginError={this.state.loginError}
-          /> // display login form
-        )}
-      </React.Fragment>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LoginForm
+              onLogin={this.handleLogin}
+              onLoginChange={this.handleLoginChange}
+              loginError={this.state.loginError}
+            />
+          }
+        />
+        <Route path="/user" element={<Home />} />
+      </Routes>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
