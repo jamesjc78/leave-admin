@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import { Navigate } from "react-router-dom";
 import { withRouter } from "../../withRouter";
+
+// sorting data
+const mySort = (arr, sortBy) => {
+  arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
+};
+
 class Home extends React.Component {
   render() {
-    const { authorized } = this.props;
+    const { authorized, employees } = this.props.states;
+    mySort(employees, "email");
+    let counter = 1;
     if (!authorized) return <Navigate to="/" />;
     return (
       <div className="container-fluid">
@@ -26,24 +34,14 @@ class Home extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+                {employees.map((employee) => (
+                  <tr>
+                    <th scope="row">{counter++}</th>
+                    <td>{employee.email}</td>
+                    <td>{employee.name}</td>
+                    <td>{employee.position}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
