@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginForm from "./components/login/login";
 import Home from "./components/home/home";
+import Leave from "./components/leave/leave";
 import { withRouter } from "./withRouter";
 
 const emailRegex = RegExp(
@@ -33,6 +34,7 @@ class App extends React.Component {
     position: null,
     password: null,
     employees: [
+      // list of employees
       {
         name: "J.C. James Arcilla",
         email: "jla@noaya.no",
@@ -51,7 +53,34 @@ class App extends React.Component {
         position: "Software Developer",
         password: null,
       },
-    ], // list of employees
+    ],
+    leaves: [
+      // list of leaves
+      {
+        email: "kmg@noaya.no",
+        date: Date(2022, 1, 12),
+        type: "Sick",
+        notes: "Headache and Fever",
+      },
+      {
+        email: "kmg@noaya.no",
+        date: Date(2022, 6, 12),
+        type: "Vacation",
+        notes: "N/A",
+      },
+      {
+        email: "kmg@noaya.no",
+        date: Date(2022, 1, 10),
+        type: "Emergency",
+        notes: "Family Emergency",
+      },
+      {
+        email: "jla@noaya.no",
+        date: Date(2022, 1, 12),
+        type: "Sick",
+        notes: "Headache and Fever",
+      },
+    ],
     loginError: {
       userError: "", // login error messages
       passwordError: "",
@@ -93,6 +122,18 @@ class App extends React.Component {
   };
 
   // Home Handlers
+  handleUserRowClick = (email) => {
+    console.log(email);
+    // const { name } = event.target;
+    // const leaves = [];
+    // this.state.leaves.map((leave) => {
+    //   if (leave.email == name) {
+    //     leaves.push(leave);
+    //   }
+    // });
+    // mySort(leaves, "date");
+    this.props.navigate(`/user/${email}`);
+  };
 
   render() {
     return (
@@ -107,7 +148,13 @@ class App extends React.Component {
             />
           }
         />
-        <Route path="/user" element={<Home states={this.state} />} />
+        <Route
+          path="/user"
+          element={
+            <Home states={this.state} onRowClick={this.handleUserRowClick} />
+          }
+        />
+        <Route path="/user/:email" element={<Leave states={this.state} />} />
       </Routes>
     );
   }

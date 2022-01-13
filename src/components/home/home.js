@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { withRouter } from "../../withRouter";
 
@@ -17,14 +17,14 @@ class Home extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col">
-            <button className="btn btn-primary float-end add-employee my-button">
+            <button className="btn btn-primary float-end add-employee ">
               + Add Employee
             </button>
           </div>
         </div>
         <div className="row justify-content-center">
           <div className="col-48 col-sm-24 col-md-12 ">
-            <table className="table table-striped rounded">
+            <table className="table table-striped table-hover rounded">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -35,7 +35,11 @@ class Home extends React.Component {
               </thead>
               <tbody>
                 {employees.map((employee) => (
-                  <tr>
+                  <tr
+                    key={employee.email}
+                    id={employee.email}
+                    onClick={() => this.props.onRowClick(employee.email)}
+                  >
                     <th scope="row">{counter++}</th>
                     <td>{employee.email}</td>
                     <td>{employee.name}</td>
