@@ -9,11 +9,6 @@ const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
-// sorting data
-const mySort = (arr, sortBy) => {
-  arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-};
-
 const loginValid = (states) => {
   let valid = true;
   const loginError = states.loginError;
