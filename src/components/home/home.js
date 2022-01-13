@@ -24,7 +24,7 @@ class Home extends React.Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-48 col-sm-24 col-md-12 ">
-            <table className="table table-striped rounded">
+            <table className="table table-striped table-hover rounded">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -38,7 +38,7 @@ class Home extends React.Component {
                   <tr
                     key={employee.email}
                     id={employee.email}
-                    onClick={(event) => this.props.onRowClick(event)}
+                    onClick={() => this.props.onRowClick(employee.email)}
                   >
                     <th scope="row">{counter++}</th>
                     <td>{employee.email}</td>

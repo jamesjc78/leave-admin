@@ -122,9 +122,8 @@ class App extends React.Component {
   };
 
   // Home Handlers
-  handleUserRowClick = (event) => {
-    event.preventDefault();
-    console.log(event);
+  handleUserRowClick = (email) => {
+    console.log(email);
     // const { name } = event.target;
     // const leaves = [];
     // this.state.leaves.map((leave) => {
@@ -133,7 +132,7 @@ class App extends React.Component {
     //   }
     // });
     // mySort(leaves, "date");
-    this.props.navigate(`/user/${event.target.innerText}`);
+    this.props.navigate(`/user/${email}`);
   };
 
   render() {
