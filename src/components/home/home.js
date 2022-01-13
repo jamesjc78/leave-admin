@@ -35,7 +35,11 @@ class Home extends React.Component {
               </thead>
               <tbody>
                 {employees.map((employee) => (
-                  <tr>
+                  <tr
+                    key={employee.email}
+                    id={employee.email}
+                    onClick={(event) => this.props.onRowClick(event)}
+                  >
                     <th scope="row">{counter++}</th>
                     <td>{employee.email}</td>
                     <td>{employee.name}</td>
