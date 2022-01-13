@@ -32,7 +32,26 @@ class App extends React.Component {
     email: null,
     position: null,
     password: null,
-    employees: [], // list of employees
+    employees: [
+      {
+        name: "J.C. James Arcilla",
+        email: "jla@noaya.no",
+        position: "Software Developer",
+        password: null,
+      },
+      {
+        name: "Vince Elizaga",
+        email: "vne@noaya.no",
+        position: "Software & System Engineer",
+        password: null,
+      },
+      {
+        name: "Kenji Mille Grava",
+        email: "kmg@noaya.no",
+        position: "Software Developer",
+        password: null,
+      },
+    ], // list of employees
     loginError: {
       userError: "", // login error messages
       passwordError: "",
@@ -40,7 +59,7 @@ class App extends React.Component {
     authorized: false,
   };
 
-  //
+  // Login Handlers
   handleLogin = (event) => {
     event.preventDefault();
     if (loginValid(this.state)) {
@@ -73,6 +92,8 @@ class App extends React.Component {
     this.setState({ loginError, [name]: value }, () => console.log(this.state));
   };
 
+  // Home Handlers
+
   render() {
     return (
       <Routes>
@@ -86,10 +107,7 @@ class App extends React.Component {
             />
           }
         />
-        <Route
-          path="/user"
-          element={<Home authorized={this.state.authorized} />}
-        />
+        <Route path="/user" element={<Home states={this.state} />} />
       </Routes>
     );
   }
