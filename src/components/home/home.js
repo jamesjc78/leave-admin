@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { withRouter } from "../../withRouter";
 
@@ -17,7 +17,7 @@ class Home extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col">
-            <button className="btn btn-primary float-end add-employee my-button">
+            <button className="btn btn-primary float-end add-employee ">
               + Add Employee
             </button>
           </div>

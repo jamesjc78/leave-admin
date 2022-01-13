@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 
 // sorting data
@@ -8,7 +8,57 @@ const mySort = (arr, sortBy) => {
 
 function Leave(props) {
   const { email } = useParams();
-  return <h1>User Leave page {email}</h1>;
+  const { employees, leaves } = props.states;
+  const employeeDetail = employees.find((x) => x.email === email);
+  const employeeLeaves = [];
+  leaves.map((leave) => {
+    if (leave.email === email) {
+      employeeLeaves.push(leave);
+    }
+  });
+  mySort(employeeLeaves, "date");
+  let counter = 1;
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <p className="font-weight-bold margin-head">
+            {employeeDetail.name} ({employeeDetail.position})
+          </p>
+          <p>Total Leaves (2022) : {employeeLeaves.length}</p>
+        </div>
+        <div className="col ">
+          <button className="btn btn-danger float-end delete-employee">
+            Delete Employee
+          </button>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-48 col-sm-24 col-md-12 ">
+          <table className="table table-striped rounded">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Type</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employeeLeaves.map((leave) => (
+                <tr key={counter}>
+                  <th scope="row">{counter++}</th>
+                  <td>{leave.date}</td>
+                  <td>{leave.type}</td>
+                  <td>{leave.notes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Leave;
