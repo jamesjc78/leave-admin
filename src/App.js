@@ -58,25 +58,25 @@ class App extends React.Component {
       // list of leaves
       {
         email: "kmg@noaya.no",
-        date: Date(2022, 1, 12),
+        date: Date(2022, 0, 14),
         type: "Sick",
         notes: "Headache and Fever",
       },
       {
         email: "kmg@noaya.no",
-        date: Date(2022, 6, 12),
+        date: Date(2022, 5, 10),
         type: "Vacation",
         notes: "N/A",
       },
       {
         email: "kmg@noaya.no",
-        date: Date(2022, 1, 10),
+        date: Date(2022, 0, 12),
         type: "Emergency",
         notes: "Family Emergency",
       },
       {
         email: "jla@noaya.no",
-        date: Date(2022, 1, 12),
+        date: Date(2022, 0, 12),
         type: "Sick",
         notes: "Headache and Fever",
       },
@@ -123,15 +123,6 @@ class App extends React.Component {
 
   // Home Handlers
   handleUserRowClick = (email) => {
-    console.log(email);
-    // const { name } = event.target;
-    // const leaves = [];
-    // this.state.leaves.map((leave) => {
-    //   if (leave.email == name) {
-    //     leaves.push(leave);
-    //   }
-    // });
-    // mySort(leaves, "date");
     this.props.navigate(`/user/${email}`);
   };
 
