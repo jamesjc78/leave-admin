@@ -10,10 +10,25 @@ function Leave(props) {
   const { email } = useParams();
   const { employees, leaves } = props.states;
   const employeeDetail = employees.find((x) => x.email === email);
-  const employeeLeaves = [];
+  const arrayMonth = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let employeeLeaves = [];
   leaves.map((leave) => {
     if (leave.email === email) {
       employeeLeaves.push(leave);
+      console.log("leave " + new Date(leave?.date));
     }
   });
   mySort(employeeLeaves, "date");
@@ -25,7 +40,9 @@ function Leave(props) {
           <p className="font-weight-bold margin-head">
             {employeeDetail.name} ({employeeDetail.position})
           </p>
-          <p>Total Leaves (2022) : {employeeLeaves.length}</p>
+          <p>
+            Total Leaves ({new Date().getFullYear()}) : {employeeLeaves.length}
+          </p>
         </div>
         <div className="col ">
           <button className="btn btn-danger float-end delete-employee">
@@ -48,7 +65,13 @@ function Leave(props) {
               {employeeLeaves.map((leave) => (
                 <tr key={counter}>
                   <th scope="row">{counter++}</th>
-                  <td>{leave.date}</td>
+                  <td>
+                    {arrayMonth[new Date(leave?.date).getMonth()] +
+                      " " +
+                      new Date(leave?.date).getDate() +
+                      ", " +
+                      new Date(leave?.date).getFullYear()}
+                  </td>
                   <td>{leave.type}</td>
                   <td>{leave.notes}</td>
                 </tr>
