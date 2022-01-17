@@ -15,7 +15,7 @@ function Home({ authorized, employees, onRowClick }) {
       <div className="row">
         <div className="col">
           <button className="btn btn-primary float-end add-employee ">
-            + Add Employee
+            + Add User
           </button>
         </div>
       </div>
