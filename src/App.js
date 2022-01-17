@@ -30,6 +30,7 @@ function App() {
   const [email, setEmail] = useState(null);
   const [position, setPosition] = useState(null);
   const [password, setPassword] = useState(null);
+  const [modalShowAdd, setModalShowAdd] = useState(false);
   const [modalShowDelete, setModalShowDelete] = useState(false);
   const [employees, setemployees] = useState([
     // list of employees
@@ -126,6 +127,10 @@ function App() {
     navigate(`/user/${email}`);
   };
 
+  const showModalAdd = (value) => {
+    setModalShowAdd(value);
+  };
+
   //Leave Handlers
 
   const showModalDelete = (value) => {
@@ -151,7 +156,9 @@ function App() {
           <Home
             authorized={authorized}
             employees={employees}
+            modalShowAdd={modalShowAdd}
             onRowClick={handleUserRowClick}
+            showModal={showModalAdd}
           />
         }
       />
