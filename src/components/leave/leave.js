@@ -6,9 +6,8 @@ const mySort = (arr, sortBy) => {
   arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
 };
 
-function Leave(props) {
+function Leave({ employees, leaves }) {
   const { email } = useParams();
-  const { employees, leaves } = props.states;
   const employeeDetail = employees.find((x) => x.email === email);
   const arrayMonth = [
     "Jan",
