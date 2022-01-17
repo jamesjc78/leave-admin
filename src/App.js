@@ -30,6 +30,7 @@ function App() {
   const [email, setEmail] = useState(null);
   const [position, setPosition] = useState(null);
   const [password, setPassword] = useState(null);
+  const [modalShowDelete, setModalShowDelete] = useState(false);
   const [employees, setemployees] = useState([
     // list of employees
     {
@@ -124,6 +125,14 @@ function App() {
   const handleUserRowClick = (email) => {
     navigate(`/user/${email}`);
   };
+
+  //Leave Handlers
+
+  const showModalDelete = (value) => {
+    setModalShowDelete(value);
+  };
+
+  // render
   return (
     <Routes>
       <Route
@@ -148,7 +157,15 @@ function App() {
       />
       <Route
         path="/user/:email"
-        element={<Leave employees={employees} leaves={leaves} />}
+        element={
+          <Leave
+            authorized={authorized}
+            employees={employees}
+            leaves={leaves}
+            modalShowDelete={modalShowDelete}
+            showModal={showModalDelete}
+          />
+        }
       />
     </Routes>
   );
