@@ -1,12 +1,13 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+import { Button, Modal } from "react-bootstrap";
 
 // sorting data
 const mySort = (arr, sortBy) => {
   arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
 };
 
-function Leave({ employees, leaves }) {
+function Leave({ authorized, employees, leaves, modalShowDelete, showModal }) {
   const { email } = useParams();
   const employeeDetail = employees.find((x) => x.email === email);
   const arrayMonth = [
@@ -23,17 +24,45 @@ function Leave({ employees, leaves }) {
     "Nov",
     "Dec",
   ];
+  if (!authorized) return <Navigate to="/" />;
   let employeeLeaves = [];
   leaves.map((leave) => {
     if (leave.email === email) {
       employeeLeaves.push(leave);
-      console.log("leave " + new Date(leave?.date));
     }
   });
   mySort(employeeLeaves, "date");
   let counter = 1;
   return (
     <div className="container-fluid">
+      <Modal
+        show={modalShowDelete}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        backdrop="static"
+        centered
+        onHide={() => showModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Delete User
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            Are you sure you want to delete <i>{employeeDetail.name} </i>?
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="btn btn-danger">Delete User</Button>
+          <Button
+            className="btn btn-secondary"
+            onClick={() => showModal(false)}
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="row">
         <div className="col">
           <p className="font-weight-bold margin-head">
@@ -44,8 +73,11 @@ function Leave({ employees, leaves }) {
           </p>
         </div>
         <div className="col ">
-          <button className="btn btn-danger float-end delete-employee">
-            Delete Employee
+          <button
+            className="btn btn-danger float-end delete-employee"
+            onClick={() => showModal(true)}
+          >
+            Delete User
           </button>
         </div>
       </div>
