@@ -37,7 +37,6 @@ function Leave({ authorized, employees, leaves, modalShowDelete, showModal }) {
     <div className="container-fluid">
       <Modal
         show={modalShowDelete}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         backdrop="static"
         centered
