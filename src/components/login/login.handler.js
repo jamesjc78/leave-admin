@@ -14,7 +14,6 @@ export const HandleLogin = (event, email, password, loginError, navigate) => {
       } else {
         // saving token to local storage
         localStorage.setItem("accessToken", body.accessToken);
-        localStorage.setItem("refreshToken", body.refreshToken);
         navigate("/user");
       }
     });

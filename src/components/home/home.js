@@ -1,16 +1,26 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
+import { HandleUserRowClick } from "./home.handler";
+import { mySort } from "./home.functions";
+import { getUsers } from "../../endpoints/user";
 
-// sorting data
-const mySort = (arr, sortBy) => {
-  arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-};
-
-function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
+function Home() {
+  const [modalShowAdd, setModalShowAdd] = useState(false);
+  const [employees, setemployees] = useState([]);
   mySort(employees, "email");
   let counter = 1;
-  if (!authorized) return <Navigate to="/" />;
+  const navigate = useNavigate();
+  useEffect(() => {
+    // checking access token
+    if (localStorage.getItem("accessToken") == null) {
+      navigate("/");
+    }
+    getUsers().then((body) => {
+      if (!body.status && body.data) setemployees(body.data);
+    });
+  }, []);
+
   return (
     <div className="container-fluid">
       <Modal
@@ -18,7 +28,7 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
         aria-labelledby="contained-modal-title-vcenter"
         backdrop="static"
         centered
-        onHide={() => showModal(false)}
+        onHide={() => setModalShowAdd(false)}
       >
         <form noValidate>
           <Modal.Header closeButton>
@@ -43,13 +53,28 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
               )} */}
             </div>
             <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
+              <label htmlFor="firstName">First Name</label>
               <input
                 type="text"
                 className="form-control border-0"
-                id="fullname"
-                name="fullname"
-                placeholder="Full Name"
+                id="firstname"
+                name="firstname"
+                placeholder="First Name"
+                noValidate
+                // onChange={(event) => onLoginChange(event)}
+              ></input>
+              {/* {loginError.userError.length > 0 && (
+                <small className="text-danger">{loginError.userError}</small>
+              )} */}
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                className="form-control border-0"
+                id="lastname"
+                name="lastname"
+                placeholder="Last Name"
                 noValidate
                 // onChange={(event) => onLoginChange(event)}
               ></input>
@@ -94,7 +119,7 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
             </Button>
             <Button
               className="btn btn-secondary"
-              onClick={() => showModal(false)}
+              onClick={() => setModalShowAdd(false)}
             >
               Cancel
             </Button>
@@ -105,7 +130,7 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
         <div className="col">
           <button
             className="btn btn-primary float-end add-employee "
-            onClick={() => showModal(true)}
+            onClick={() => setModalShowAdd(true)}
           >
             + Add User
           </button>
@@ -125,13 +150,15 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
             <tbody>
               {employees.map((employee) => (
                 <tr
-                  key={employee.email}
-                  id={employee.email}
-                  onClick={() => onRowClick(employee.email)}
+                  key={employee.username}
+                  id={employee.username}
+                  onClick={() =>
+                    HandleUserRowClick(employee.username, navigate)
+                  }
                 >
                   <th scope="row">{counter++}</th>
-                  <td>{employee.email}</td>
-                  <td>{employee.name}</td>
+                  <td>{employee.username}</td>
+                  <td>{employee.firstName + " " + employee.lastName}</td>
                   <td>{employee.position}</td>
                 </tr>
               ))}
