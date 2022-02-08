@@ -1,6 +1,25 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { HandleLogin, HandleLoginChange } from "./login.handler";
 
-function LoginForm({ loginError, onLogin, onLoginChange }) {
+function LoginForm() {
+  // login states
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [loginError, setLoginError] = useState({
+    userError: "", // login error messages
+    passwordError: "",
+  });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    // checking access token
+    if (localStorage.getItem("accessToken") != null) {
+      navigate("/user");
+    }
+  });
+
+  // rendering login
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -16,7 +35,9 @@ function LoginForm({ loginError, onLogin, onLoginChange }) {
         <div className="col-12 col-sm-6 col-md-3 ">
           <form
             className="my-container shadow bg-white"
-            onSubmit={(event) => onLogin(event)}
+            onSubmit={(event) =>
+              HandleLogin(event, email, password, loginError, navigate)
+            }
             noValidate
           >
             <div className="form-group">
@@ -29,7 +50,15 @@ function LoginForm({ loginError, onLogin, onLoginChange }) {
                 placeholder="Username"
                 aria-describedby="emailHelp"
                 noValidate
-                onChange={(event) => onLoginChange(event)}
+                onChange={(event) =>
+                  HandleLoginChange(
+                    event,
+                    loginError,
+                    setEmail,
+                    setPassword,
+                    setLoginError
+                  )
+                }
               ></input>
               {loginError.userError.length > 0 && (
                 <small className="text-danger">{loginError.userError}</small>
@@ -44,7 +73,15 @@ function LoginForm({ loginError, onLogin, onLoginChange }) {
                 id="password"
                 name="password"
                 noValidate
-                onChange={(event) => onLoginChange(event)}
+                onChange={(event) =>
+                  HandleLoginChange(
+                    event,
+                    loginError,
+                    setEmail,
+                    setPassword,
+                    setLoginError
+                  )
+                }
               ></input>
               {loginError.passwordError.length > 0 && (
                 <small className="text-danger">

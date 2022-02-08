@@ -4,25 +4,6 @@ import LoginForm from "./components/login/login";
 import Home from "./components/home/home";
 import Leave from "./components/leave/leave";
 
-const emailRegex = RegExp(
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-);
-
-const loginValid = (loginError, username, password) => {
-  let valid = true;
-
-  // validate form errors being empty
-  Object.values(loginError).forEach((val) => {
-    val.length > 0 && (valid = false);
-  });
-
-  // validate the form was filled out
-  username === null && (valid = false);
-  password === null && (valid = false);
-
-  return valid;
-};
-
 function App() {
   const navigate = useNavigate();
 
@@ -84,43 +65,7 @@ function App() {
     userError: "", // login error messages
     passwordError: "",
   });
-  const [authorized, setAuthorized] = useState(false);
-
-  // Login Handlers
-  const handleLogin = (event) => {
-    console.log(loginError + email + password);
-    event.preventDefault();
-    if (loginValid(loginError, email, password)) {
-      setAuthorized(true);
-      navigate("/user");
-    } else {
-      console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
-    }
-  };
-
-  const handleLoginChange = (event) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    let newLoginError = { ...loginError };
-
-    switch (name) {
-      case "email":
-        setEmail(value);
-        newLoginError.userError = emailRegex.test(value)
-          ? ""
-          : "invalid email address";
-        break;
-      case "password":
-        setPassword(value);
-        newLoginError.passwordError =
-          value.length < 6 ? "minimum 6 characters required" : "";
-        break;
-      default:
-        break;
-    }
-    console.log(loginError);
-    setLoginError(newLoginError);
-  };
+  const [authorized, setAuthorized] = useState(true);
 
   // Home Handlers
   const handleUserRowClick = (email) => {
@@ -140,16 +85,7 @@ function App() {
   // render
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <LoginForm
-            onLogin={handleLogin}
-            onLoginChange={handleLoginChange}
-            loginError={loginError}
-          />
-        }
-      />
+      <Route path="/" element={<LoginForm />} />
       <Route
         path="/user"
         element={
