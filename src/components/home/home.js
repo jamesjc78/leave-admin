@@ -17,6 +17,11 @@ function Home() {
       navigate("/");
     }
     getUsers().then((body) => {
+      if (body.authmessage) {
+        if (body.authmessage == "access token expired!")
+          localStorage.removeItem("accessToken");
+        navigate("/");
+      }
       if (!body.status && body.data) setemployees(body.data);
     });
   }, []);
