@@ -5,7 +5,6 @@ export const getUsers = async () => {
   const response = await axios.get("/user", {
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": "2ce81eb0-a49a-11ea-b556-f7c9f9f425bc",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   });
@@ -15,14 +14,68 @@ export const getUsers = async () => {
 
 // GET ~/user/:username
 export const getUser = async (username) => {
-  const response = await axios.get(`/user/${username}`);
+  const response = await axios.get(`/user/${username}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+  const data = response.data;
+  return data;
 };
 
 // POST ~/user
-export const addUser = async () => {};
+export const addUser = async (
+  firstName,
+  lastName,
+  username,
+  password,
+  position
+) => {
+  const response = await axios.post(
+    "/user",
+    { firstName, lastName, username, password, position },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  const data = response.data;
+  return data;
+};
 
 // PUT ~/user/:username
-export const updateUser = async () => {};
+export const updateUser = async (
+  firstName,
+  lastName,
+  username,
+  password,
+  position
+) => {
+  const response = await axios.put(
+    `/user/${username}`,
+    { firstName, lastName, password, position },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  const data = response.data;
+  return data;
+};
 
 // DELETE ~/user/:username
-export const deleteUser = async () => {};
+export const deleteUser = async (username) => {
+  const response = await axios.delete(`/user/${username}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+  const data = response.data;
+  return data;
+};
