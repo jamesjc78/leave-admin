@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HandleLogin, HandleLoginChange } from "./login.handler";
 
-function LoginForm() {
+const LoginForm = () => {
   // login states
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -99,6 +99,6 @@ function LoginForm() {
       </div>
     </div>
   );
-}
+};
 
 export default LoginForm;

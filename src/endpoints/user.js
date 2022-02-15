@@ -23,6 +23,17 @@ export const getUser = async (username) => {
   const data = response.data;
   return data;
 };
+// GET ~/employee/user
+export const getUserAdmin = async (username) => {
+  const response = await axios.get(`/employee/user`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+  const data = response.data;
+  return data;
+};
 
 // POST ~/user
 export const addUser = async (

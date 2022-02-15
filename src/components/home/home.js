@@ -9,7 +9,7 @@ import {
 import { mySort } from "./home.functions";
 import { getUsers } from "../../endpoints/user";
 
-function Home() {
+const Home = () => {
   const [username, setUsername] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -343,5 +343,5 @@ function Home() {
       </div> */}
     </div>
   );
-}
+};
 export default Home;

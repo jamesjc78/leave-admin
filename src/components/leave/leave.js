@@ -7,7 +7,13 @@ const mySort = (arr, sortBy) => {
   arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
 };
 
-function Leave({ authorized, employees, leaves, modalShowDelete, showModal }) {
+const Leave = ({
+  authorized,
+  employees,
+  leaves,
+  modalShowDelete,
+  showModal,
+}) => {
   const { email } = useParams();
   const employeeDetail = employees.find((x) => x.email === email);
   const arrayMonth = [
@@ -112,6 +118,6 @@ function Leave({ authorized, employees, leaves, modalShowDelete, showModal }) {
       </div>
     </div>
   );
-}
+};
 
 export default Leave;

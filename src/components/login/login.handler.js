@@ -1,6 +1,6 @@
 import { login } from "../../endpoints/account";
 import { loginValid } from "./login.functions";
-import { emailRegex } from "../../common/common";
+import { emailRegex } from "../../common";
 
 // submit handler
 export const HandleLogin = (event, email, password, loginError, navigate) => {

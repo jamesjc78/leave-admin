@@ -1,4 +1,4 @@
-import { emailRegex, nameRegex } from "../../common/common";
+import { emailRegex, nameRegex } from "../../common";
 import { addUser } from "../../endpoints/user";
 
 // Clicking employee row
