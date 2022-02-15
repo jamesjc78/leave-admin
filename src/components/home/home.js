@@ -1,16 +1,52 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
+import {
+  HandleUserRowClick,
+  HandleAddUser,
+  HandleAddUserChange,
+} from "./home.handler";
+import { mySort } from "./home.functions";
+import { getUsers } from "../../endpoints/user";
 
-// sorting data
-const mySort = (arr, sortBy) => {
-  arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-};
-
-function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
-  mySort(employees, "email");
+function Home() {
+  const [username, setUsername] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [position, setPosition] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [addError, setAddError] = useState({
+    userError: "", // add user error messages
+    firstNameError: "",
+    lastNameError: "",
+    positionError: "",
+    passwordError: "",
+  });
+  const [modalShowAdd, setModalShowAdd] = useState(false);
+  const [employees, setemployees] = useState([]);
   let counter = 1;
-  if (!authorized) return <Navigate to="/" />;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // checking access token
+    if (localStorage.getItem("accessToken") == null) {
+      navigate("/");
+    }
+    getUsers().then((body) => {
+      console.log("triggered");
+      if (body.authmessage) {
+        if (body.authmessage == "access token expired!")
+          localStorage.removeItem("accessToken");
+        navigate("/");
+      }
+
+      if (!body.status && body.data) {
+        mySort(body.data, "username");
+        setemployees(body.data);
+      }
+    });
+  }, [modalShowAdd]);
+
   return (
     <div className="container-fluid">
       <Modal
@@ -18,9 +54,32 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
         aria-labelledby="contained-modal-title-vcenter"
         backdrop="static"
         centered
-        onHide={() => showModal(false)}
+        onHide={() => {
+          setModalShowAdd(false);
+          setAddError({
+            userError: "",
+            firstNameError: "",
+            lastNameError: "",
+            positionError: "",
+            passwordError: "",
+          });
+        }}
       >
-        <form noValidate>
+        <form
+          onSubmit={(event) =>
+            HandleAddUser(
+              event,
+              addError,
+              username,
+              firstName,
+              lastName,
+              position,
+              password,
+              setModalShowAdd
+            )
+          }
+          noValidate
+        >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
               Add User
@@ -36,26 +95,110 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
                 name="email"
                 placeholder="Email"
                 noValidate
-                // onChange={(event) => onLoginChange(event)}
+                onBlur={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
+                onChange={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
               ></input>
-              {/* {loginError.userError.length > 0 && (
-                <small className="text-danger">{loginError.userError}</small>
-              )} */}
+              {addError.userError.length > 0 && (
+                <small className="text-danger">{addError.userError}</small>
+              )}
             </div>
             <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
+              <label htmlFor="firstName">First Name</label>
               <input
                 type="text"
                 className="form-control border-0"
-                id="fullname"
-                name="fullname"
-                placeholder="Full Name"
+                id="firstname"
+                name="firstname"
+                placeholder="First Name"
                 noValidate
-                // onChange={(event) => onLoginChange(event)}
+                onBlur={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
+                onChange={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
               ></input>
-              {/* {loginError.userError.length > 0 && (
-                <small className="text-danger">{loginError.userError}</small>
-              )} */}
+              {addError.firstNameError.length > 0 && (
+                <small className="text-danger">{addError.firstNameError}</small>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                className="form-control border-0"
+                id="lastname"
+                name="lastname"
+                placeholder="Last Name"
+                noValidate
+                onBlur={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
+                onChange={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
+              ></input>
+              {addError.lastNameError.length > 0 && (
+                <small className="text-danger">{addError.lastNameError}</small>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="position">Position</label>
@@ -66,26 +209,60 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
                 name="position"
                 placeholder="Position"
                 noValidate
-                // onChange={(event) => onLoginChange(event)}
+                onBlur={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
+                onChange={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
               ></input>
-              {/* {loginError.userError.length > 0 && (
-                <small className="text-danger">{loginError.userError}</small>
-              )} */}
+              {addError.positionError.length > 0 && (
+                <small className="text-danger">{addError.positionError}</small>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
-                type="text"
+                type="password"
                 className="form-control border-0"
                 id="password"
                 name="password"
                 placeholder="Password"
                 noValidate
-                // onChange={(event) => onLoginChange(event)}
+                onChange={(event) =>
+                  HandleAddUserChange(
+                    event,
+                    addError,
+                    setUsername,
+                    setFirstName,
+                    setLastName,
+                    setPosition,
+                    setPassword,
+                    setAddError
+                  )
+                }
               ></input>
-              {/* {loginError.userError.length > 0 && (
-                <small className="text-danger">{loginError.userError}</small>
-              )} */}
+              {addError.passwordError.length > 0 && (
+                <small className="text-danger">{addError.passwordError}</small>
+              )}
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -94,7 +271,16 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
             </Button>
             <Button
               className="btn btn-secondary"
-              onClick={() => showModal(false)}
+              onClick={() => {
+                setModalShowAdd(false);
+                setAddError({
+                  userError: "",
+                  firstNameError: "",
+                  lastNameError: "",
+                  positionError: "",
+                  passwordError: "",
+                });
+              }}
             >
               Cancel
             </Button>
@@ -105,7 +291,16 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
         <div className="col">
           <button
             className="btn btn-primary float-end add-employee "
-            onClick={() => showModal(true)}
+            onClick={() => {
+              setModalShowAdd(true);
+              setAddError({
+                userError: "",
+                firstNameError: "",
+                lastNameError: "",
+                positionError: "",
+                passwordError: "",
+              });
+            }}
           >
             + Add User
           </button>
@@ -125,13 +320,15 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
             <tbody>
               {employees.map((employee) => (
                 <tr
-                  key={employee.email}
-                  id={employee.email}
-                  onClick={() => onRowClick(employee.email)}
+                  key={employee.username}
+                  id={employee.username}
+                  onClick={() =>
+                    HandleUserRowClick(employee.username, navigate)
+                  }
                 >
                   <th scope="row">{counter++}</th>
-                  <td>{employee.email}</td>
-                  <td>{employee.name}</td>
+                  <td>{employee.username}</td>
+                  <td>{employee.firstName + " " + employee.lastName}</td>
                   <td>{employee.position}</td>
                 </tr>
               ))}
@@ -139,11 +336,11 @@ function Home({ authorized, employees, modalShowAdd, onRowClick, showModal }) {
           </table>
         </div>
       </div>
-      <div className="row justify-content-center">
+      {/* <div className="row justify-content-center">
         <div className="col-8 col-sm-4  col-md-2 ">
           <button className="btn btn-primary add-employee">Show More</button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

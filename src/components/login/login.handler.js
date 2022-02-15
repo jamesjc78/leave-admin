@@ -1,5 +1,6 @@
 import { login } from "../../endpoints/account";
-import { emailRegex, loginValid } from "./login.functions";
+import { loginValid } from "./login.functions";
+import { emailRegex } from "../../common/common";
 
 // submit handler
 export const HandleLogin = (event, email, password, loginError, navigate) => {
@@ -14,7 +15,6 @@ export const HandleLogin = (event, email, password, loginError, navigate) => {
       } else {
         // saving token to local storage
         localStorage.setItem("accessToken", body.accessToken);
-        localStorage.setItem("refreshToken", body.refreshToken);
         navigate("/user");
       }
     });

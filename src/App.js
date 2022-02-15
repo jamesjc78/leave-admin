@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginForm from "./components/login/login";
 import Home from "./components/home/home";
 import Leave from "./components/leave/leave";
+import NavBar from "./components/navbar/navbar";
 
 function App() {
   const navigate = useNavigate();
@@ -67,15 +68,6 @@ function App() {
   });
   const [authorized, setAuthorized] = useState(true);
 
-  // Home Handlers
-  const handleUserRowClick = (email) => {
-    navigate(`/user/${email}`);
-  };
-
-  const showModalAdd = (value) => {
-    setModalShowAdd(value);
-  };
-
   //Leave Handlers
 
   const showModalDelete = (value) => {
@@ -89,25 +81,25 @@ function App() {
       <Route
         path="/user"
         element={
-          <Home
-            authorized={authorized}
-            employees={employees}
-            modalShowAdd={modalShowAdd}
-            onRowClick={handleUserRowClick}
-            showModal={showModalAdd}
-          />
+          <div>
+            <NavBar />
+            <Home />
+          </div>
         }
       />
       <Route
         path="/user/:email"
         element={
-          <Leave
-            authorized={authorized}
-            employees={employees}
-            leaves={leaves}
-            modalShowDelete={modalShowDelete}
-            showModal={showModalDelete}
-          />
+          <div>
+            <NavBar />
+            <Leave
+              authorized={authorized}
+              employees={employees}
+              leaves={leaves}
+              modalShowDelete={modalShowDelete}
+              showModal={showModalDelete}
+            />
+          </div>
         }
       />
     </Routes>
