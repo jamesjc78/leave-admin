@@ -90,12 +90,22 @@ const Leave = () => {
           </p>
         </div>
         <div className="col ">
-          <button
-            className="btn btn-danger float-end delete-employee"
-            onClick={() => setModalShowDelete(true)}
-          >
-            Delete User
-          </button>
+          <>
+            <button
+              className="btn float-end btn-primary add-employee"
+              onClick={() => setModalShowUpdate(true)}
+            >
+              Update User
+            </button>
+          </>
+          <>
+            <button
+              className="btn btn-danger float-end delete-employee"
+              onClick={() => setModalShowDelete(true)}
+            >
+              Delete User
+            </button>
+          </>
         </div>
       </div>
       <div className="row justify-content-center">
