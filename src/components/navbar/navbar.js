@@ -23,12 +23,9 @@ function NavBar() {
   }, []);
 
   const clickHome = () => {
-    navigate("/home");
+    navigate("/user");
   };
 
-  const clickProfile = () => {
-    navigate("/account");
-  };
   const clickLogout = () => {
     localStorage.removeItem("accessToken");
     navigate("/");
@@ -46,10 +43,7 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto ">
-            <Nav.Link
-              className="navbar-custom text-primary"
-              onClick={clickProfile}
-            >
+            <Nav.Link className="navbar-custom text-primary" disabled>
               <b>{username}</b>
             </Nav.Link>
             <Nav.Link
