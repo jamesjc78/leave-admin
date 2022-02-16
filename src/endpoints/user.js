@@ -24,7 +24,7 @@ export const getUser = async (username) => {
   return data;
 };
 // GET ~/employee/user
-export const getUserAdmin = async (username) => {
+export const getUserAdmin = async () => {
   const response = await axios.get(`/employee/user`, {
     headers: {
       "Content-Type": "application/json",

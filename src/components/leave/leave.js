@@ -1,21 +1,16 @@
-import React from "react";
-import { useParams, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
+import _ from "lodash";
+import { getLeave } from "../../endpoints/leave";
+import { getUser } from "../../endpoints/user";
 
-// sorting data
-const mySort = (arr, sortBy) => {
-  arr.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
-};
-
-const Leave = ({
-  authorized,
-  employees,
-  leaves,
-  modalShowDelete,
-  showModal,
-}) => {
+const Leave = () => {
   const { email } = useParams();
-  const employeeDetail = employees.find((x) => x.email === email);
+  const [employee, setEmployee] = useState([]);
+  const [modalShowDelete, setModalShowDelete] = useState(false);
+  const [modalShowUpdate, setModalShowUpdate] = useState(false);
+  const [leaves, setLeaves] = useState([]);
   const arrayMonth = [
     "Jan",
     "Feb",
@@ -30,14 +25,30 @@ const Leave = ({
     "Nov",
     "Dec",
   ];
-  if (!authorized) return <Navigate to="/" />;
-  let employeeLeaves = [];
-  leaves.map((leave) => {
-    if (leave.email === email) {
-      employeeLeaves.push(leave);
+  const navigate = useNavigate();
+  useEffect(() => {
+    // checking access token
+    if (localStorage.getItem("accessToken") == null) {
+      navigate("/");
     }
-  });
-  mySort(employeeLeaves, "date");
+    getUser(email).then((body) => {
+      if (body.authmessage) {
+        if (body.authmessage === "access token expired!")
+          localStorage.removeItem("accessToken");
+        navigate("/");
+      }
+      if (body.status === "success") {
+        setEmployee(body.user);
+      }
+    });
+    getLeave(email).then((body) => {
+      if (body.status === "success") {
+        body.employeeLeaves = _.orderBy(body.employeeLeaves, "date", "desc");
+        setLeaves(body.employeeLeaves);
+      }
+    });
+  }, [setModalShowUpdate]);
+
   let counter = 1;
   return (
     <div className="container-fluid">
@@ -46,7 +57,7 @@ const Leave = ({
         aria-labelledby="contained-modal-title-vcenter"
         backdrop="static"
         centered
-        onHide={() => showModal(false)}
+        onHide={() => setModalShowDelete(false)}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -55,14 +66,15 @@ const Leave = ({
         </Modal.Header>
         <Modal.Body>
           <p>
-            Are you sure you want to delete <i>{employeeDetail.name} </i>?
+            Are you sure you want to delete{" "}
+            <i>{employee.firstName + " " + employee.lastName} </i>?
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button className="btn btn-danger">Delete User</Button>
           <Button
             className="btn btn-secondary"
-            onClick={() => showModal(false)}
+            onClick={() => setModalShowDelete(false)}
           >
             Cancel
           </Button>
@@ -71,16 +83,16 @@ const Leave = ({
       <div className="row">
         <div className="col">
           <p className="font-weight-bold margin-head">
-            {employeeDetail.name} ({employeeDetail.position})
+            {employee.firstName + " " + employee.lastName} ({employee.position})
           </p>
           <p>
-            Total Leaves ({new Date().getFullYear()}) : {employeeLeaves.length}
+            Total Leaves ({new Date().getFullYear()}) : {leaves.length}
           </p>
         </div>
         <div className="col ">
           <button
             className="btn btn-danger float-end delete-employee"
-            onClick={() => showModal(true)}
+            onClick={() => setModalShowDelete(true)}
           >
             Delete User
           </button>
@@ -98,7 +110,7 @@ const Leave = ({
               </tr>
             </thead>
             <tbody>
-              {employeeLeaves.map((leave) => (
+              {leaves.map((leave) => (
                 <tr key={counter}>
                   <th scope="row">{counter++}</th>
                   <td>
