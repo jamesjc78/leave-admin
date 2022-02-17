@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
 import _ from "lodash";
 import { getLeave } from "../../endpoints/leave";
 import { getUser } from "../../endpoints/user";
+import DeleteModal from "./delete";
 
 const Leave = () => {
   const { email } = useParams();
@@ -52,34 +52,11 @@ const Leave = () => {
   let counter = 1;
   return (
     <div className="container-fluid">
-      <Modal
-        show={modalShowDelete}
-        aria-labelledby="contained-modal-title-vcenter"
-        backdrop="static"
-        centered
-        onHide={() => setModalShowDelete(false)}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Delete User
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            Are you sure you want to delete{" "}
-            <i>{employee.firstName + " " + employee.lastName} </i>?
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="btn btn-danger">Delete User</Button>
-          <Button
-            className="btn btn-secondary"
-            onClick={() => setModalShowDelete(false)}
-          >
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteModal
+        modalShowDelete={modalShowDelete}
+        setModalShowDelete={setModalShowDelete}
+        employee={employee}
+      />
       <div className="row">
         <div className="col">
           <p className="font-weight-bold margin-head">
