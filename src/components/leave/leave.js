@@ -4,6 +4,7 @@ import _ from "lodash";
 import { getLeave } from "../../endpoints/leave";
 import { getUser } from "../../endpoints/user";
 import DeleteModal from "./delete";
+import UpdateModal from "./update";
 
 const Leave = () => {
   const { email } = useParams();
@@ -47,11 +48,17 @@ const Leave = () => {
         setLeaves(body.employeeLeaves);
       }
     });
-  }, [setModalShowUpdate]);
+  }, [modalShowUpdate]);
 
   let counter = 1;
   return (
     <div className="container-fluid">
+      <UpdateModal
+        modalShowUpdate={modalShowUpdate}
+        setModalShowUpdate={setModalShowUpdate}
+        employee={employee}
+        setEmployee={setEmployee}
+      />
       <DeleteModal
         modalShowDelete={modalShowDelete}
         setModalShowDelete={setModalShowDelete}
