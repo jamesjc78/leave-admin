@@ -66,7 +66,7 @@ export const updateUser = async (
   position
 ) => {
   const response = await axios.put(
-    `/user/${username}`,
+    `https://noaya-leave-api.herokuapp.com/user/${username}`,
     { firstName, lastName, password, position },
     {
       headers: {
@@ -81,12 +81,15 @@ export const updateUser = async (
 
 // DELETE ~/user/:username
 export const deleteUser = async (username) => {
-  const response = await axios.delete(`/user/${username}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
+  const response = await axios.delete(
+    `https://noaya-leave-api.herokuapp.com/user/${username}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
   const data = response.data;
   return data;
 };

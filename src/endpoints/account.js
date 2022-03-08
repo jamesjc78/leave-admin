@@ -12,10 +12,13 @@ export const login = async (username, password) => {
 
 // POST ~/account/change-password
 export const changePassword = async (oldPassword, newPassword) => {
-  const response = await axios.post("/account/change-password", {
-    oldPassword,
-    newPassword,
-  });
+  const response = await axios.post(
+    "https://noaya-leave-api.herokuapp.com/account/change-password",
+    {
+      oldPassword,
+      newPassword,
+    }
+  );
   const data = response.data;
   return data;
 };
@@ -23,11 +26,17 @@ export const changePassword = async (oldPassword, newPassword) => {
 // DELETE ~/account/logout
 export const logout = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  const response = await axios.delete("/account/logout", { refreshToken });
+  const response = await axios.delete(
+    "https://noaya-leave-api.herokuapp.com/account/logout",
+    { refreshToken }
+  );
 };
 
 // POST ~/account/token
 export const token = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  const response = await axios.post("/account/token", { refreshToken });
+  const response = await axios.post(
+    "https://noaya-leave-api.herokuapp.com/account/token",
+    { refreshToken }
+  );
 };
