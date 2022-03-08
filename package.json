@@ -22,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://noaya-leave-api.herokuapp.com/",
+  "proxy": "https://noaya-leave-admin.herokuapp.com/",
   "eslintConfig": {
     "extends": [
       "react-app",
