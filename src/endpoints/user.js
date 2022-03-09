@@ -2,35 +2,44 @@ import axios from "axios";
 
 // GET ~/user
 export const getUsers = async () => {
-  const response = await axios.get("/user", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
+  const response = await axios.get(
+    "https://noaya-leave-api.herokuapp.com/user",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
   const data = response.data;
   return data;
 };
 
 // GET ~/user/:username
 export const getUser = async (username) => {
-  const response = await axios.get(`/user/${username}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
+  const response = await axios.get(
+    `https://noaya-leave-api.herokuapp.com/user/${username}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
   const data = response.data;
   return data;
 };
 // GET ~/employee/user
 export const getUserAdmin = async () => {
-  const response = await axios.get(`/employee/user`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
+  const response = await axios.get(
+    `https://noaya-leave-api.herokuapp.com/employee/user`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
   const data = response.data;
   return data;
 };
@@ -44,7 +53,7 @@ export const addUser = async (
   position
 ) => {
   const response = await axios.post(
-    "/user",
+    "https://noaya-leave-api.herokuapp.com/user",
     { firstName, lastName, username, password, position },
     {
       headers: {
