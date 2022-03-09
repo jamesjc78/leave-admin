@@ -2,10 +2,13 @@ import axios from "axios";
 
 // POST ~/account/authenticate
 export const login = async (username, password) => {
-  const response = await axios.post("/account/authenticate", {
-    username,
-    password,
-  });
+  const response = await axios.post(
+    "https://noaya-leave-api.herokuapp.com/account/authenticate",
+    {
+      username,
+      password,
+    }
+  );
   const data = response.data;
   return data;
 };
